@@ -4,19 +4,44 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
+    private static final String TAG = MainActivity.class.getSimpleName() ;
     EditText nameEditText;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         nameEditText = findViewById(R.id.editTextname);
+        Log.i(TAG,"activity created");
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Log.e(TAG,"activity started");
+
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.v(TAG,"activity paused");
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.w(TAG,"activity resume");
 
     }
 
@@ -30,6 +55,9 @@ public class MainActivity extends AppCompatActivity {
                 startActivityForResult(homeIntent,007);
                 break;
             case R.id.buttoncancel:
+                Intent dialIntent = new Intent(Intent.ACTION_VIEW,
+                        Uri.parse("tel:123456789"));
+                startActivity(dialIntent);
                 /*String name = nameEditText.getText().toString();
                 Toast.makeText(this, name, Toast.LENGTH_SHORT).show();
                 */break;
