@@ -1,11 +1,13 @@
 package com.spot.actapp;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
@@ -25,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
                         DisplayMsgActivity.class);
                 String name = nameEditText.getText().toString();
                 homeIntent.putExtra("actkey",name);
-                startActivity(homeIntent);
+                startActivityForResult(homeIntent,007);
                 break;
             case R.id.buttoncancel:
                 /*String name = nameEditText.getText().toString();
@@ -36,5 +38,16 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent intent) {
+        super.onActivityResult(requestCode, resultCode, intent);
+        if(requestCode==007 && resultCode == RESULT_OK){
+            String macaddr = intent.getExtras().getString("macaddress");
+            TextView macTextView = findViewById(R.id.textViewMac);
+            macTextView.setText(macaddr);
+        }
     }
 }

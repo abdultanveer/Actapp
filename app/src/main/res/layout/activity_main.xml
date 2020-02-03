@@ -34,23 +34,33 @@
 
     <Button
         android:id="@+id/buttonlogin"
-        android:onClick="clickHandler"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="50dp"
         android:layout_marginTop="52dp"
+        android:onClick="clickHandler"
         android:text="@string/login"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editText2" />
 
     <Button
         android:id="@+id/buttoncancel"
-        android:onClick="clickHandler"
         android:layout_width="@dimen/button_width"
         android:layout_height="wrap_content"
         android:layout_marginStart="34dp"
+        android:onClick="clickHandler"
         android:text="@android:string/cancel"
         app:layout_constraintBaseline_toBaselineOf="@+id/buttonlogin"
         app:layout_constraintStart_toEndOf="@+id/buttonlogin" />
+
+    <TextView
+        android:id="@+id/textViewMac"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="46dp"
+        android:layout_marginTop="92dp"
+        android:text="TextView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonlogin" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
