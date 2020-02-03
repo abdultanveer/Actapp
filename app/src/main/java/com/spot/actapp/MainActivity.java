@@ -8,8 +8,11 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -18,6 +21,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     private static final String TAG = MainActivity.class.getSimpleName() ;
     EditText nameEditText;
     Spinner spinner;
+    String[] countries = new String[]{"india","usa","uk"};
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,6 +30,13 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         Log.i(TAG,"activity created");
         spinner = findViewById(R.id.spinner);
         spinner.setOnItemSelectedListener(this);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
+                android.R.layout.simple_list_item_multiple_choice,//layout for each row
+                countries);//data
+
+        ListView listView = findViewById(R.id.listview);
+        listView.setChoiceMode(AbsListView.CHOICE_MODE_MULTIPLE);
+        listView.setAdapter(adapter);
 
     }
 
