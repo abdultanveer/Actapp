@@ -8,19 +8,24 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
     private static final String TAG = MainActivity.class.getSimpleName() ;
     EditText nameEditText;
+    Spinner spinner;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         nameEditText = findViewById(R.id.editTextname);
         Log.i(TAG,"activity created");
+        spinner = findViewById(R.id.spinner);
+        spinner.setOnItemSelectedListener(this);
 
     }
 
@@ -42,6 +47,13 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         Log.w(TAG,"activity resume");
+
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Log.w(TAG,"activity stopped");
 
     }
 
@@ -77,5 +89,16 @@ public class MainActivity extends AppCompatActivity {
             TextView macTextView = findViewById(R.id.textViewMac);
             macTextView.setText(macaddr);
         }
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
+        String lang = (String) adapterView.getItemAtPosition(position);
+        Toast.makeText(this, lang, Toast.LENGTH_SHORT).show();
+
+    }
+    @Override
+    public void onNothingSelected(AdapterView<?> adapterView) {
+
     }
 }
