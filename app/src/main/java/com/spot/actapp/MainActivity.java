@@ -1,10 +1,11 @@
 package com.spot.actapp;
-
+import com.spot.actapp.database.TodoContract.TodoEntry;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -14,6 +15,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.SimpleCursorAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -40,9 +42,16 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         Log.i(TAG,"activity created");
         spinner = findViewById(R.id.spinner);
         spinner.setOnItemSelectedListener(this);
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
+        /*ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_list_item_multiple_choice,//layout for each row
-                countries);//data
+                countries);//data*/
+        Cursor cursor = dao.getRows();
+        SimpleCursorAdapter adapter =  new SimpleCursorAdapter(this,
+                android.R.layout.simple_list_item_2,//row layout
+                cursor,//data
+                new String[]{TodoEntry.COLUMN_NAME_TITLE, TodoEntry.COLUMN_NAME_SUBTITLE}, //db cols
+                new int[] {android.R.id.text1,android.R.id.text2} //textview ids
+                );
 
         ListView listView = findViewById(R.id.listview);
         listView.setChoiceMode(AbsListView.CHOICE_MODE_MULTIPLE);

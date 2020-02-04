@@ -39,6 +39,14 @@ public class Dao {
               cursor.getString(subtitleColIndex);
 
     }
+
+    public Cursor getRows(){
+        // Cursor cursor = database.rawQuery("select * from todo",null);
+        return  database.query(TodoEntry.TABLE_NAME,null,null,null,null,
+                null,null);
+
+
+    }
     public void updateRow(){}
     public void deleteRow(){}
 
