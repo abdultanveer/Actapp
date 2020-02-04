@@ -4,6 +4,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -22,6 +23,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     EditText nameEditText;
     Spinner spinner;
     String[] countries = new String[]{"india","usa","uk"};
+    public static String FILE_NAME = "credentials";
+    public  static int MODE = MODE_PRIVATE;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,13 +55,37 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         super.onPause();
         Log.v(TAG,"activity paused");
 
+        savePrefs();
+
+    }
+
+    private void savePrefs() {
+        //create a file -credentials
+        //data/data/com.spot.actapp/sharefprefs
+        SharedPreferences preferences = getSharedPreferences(FILE_NAME,MODE);
+        //open the file in edit
+        SharedPreferences.Editor editor = preferences.edit();
+        String name = nameEditText.getText().toString();
+        //write to file [data from edittexts]
+        editor.putString("key",name);
+        //save the file
+        editor.commit();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         Log.w(TAG,"activity resume");
+        restorePrefs();
+    }
 
+    private void restorePrefs() {
+        //open the file
+        SharedPreferences preferences = getSharedPreferences(FILE_NAME,MODE);
+        //read the file
+        String name = preferences.getString("key","");
+        //set the the credentials
+        nameEditText.setText(name);
     }
 
     @Override
