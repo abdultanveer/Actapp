@@ -18,18 +18,25 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.spot.actapp.database.Dao;
+
 public class MainActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
     private static final String TAG = MainActivity.class.getSimpleName() ;
-    EditText nameEditText;
+    EditText nameEditText,pwdEditText;
     Spinner spinner;
     String[] countries = new String[]{"india","usa","uk"};
     public static String FILE_NAME = "credentials";
     public  static int MODE = MODE_PRIVATE;
+    Dao dao;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        dao = new Dao(this);
+        dao.openDb();
         nameEditText = findViewById(R.id.editTextname);
+        pwdEditText = findViewById(R.id.editText2);
+
         Log.i(TAG,"activity created");
         spinner = findViewById(R.id.spinner);
         spinner.setOnItemSelectedListener(this);
@@ -98,24 +105,49 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     public void clickHandler(View view) {
         switch (view.getId()){
             case R.id.buttonlogin:
-                Intent homeIntent = new Intent(MainActivity.this,
-                        DisplayMsgActivity.class);
-                String name = nameEditText.getText().toString();
-                homeIntent.putExtra("actkey",name);
-                startActivityForResult(homeIntent,007);
+                //startactivtityResult();
+                saveDb();
+                //dao.closeDb();
                 break;
             case R.id.buttoncancel:
-                Intent dialIntent = new Intent(Intent.ACTION_VIEW,
-                        Uri.parse("tel:123456789"));
-                startActivity(dialIntent);
-                /*String name = nameEditText.getText().toString();
-                Toast.makeText(this, name, Toast.LENGTH_SHORT).show();
-                */break;
+                //lauchIntent();
+                getDb();
+                break;
         }
         //String welcome = getResources().getString(R.string.welcome);
 
 
 
+    }
+
+    private void getDb() {
+        String data = dao.readRow();
+        TextView textView = findViewById(R.id.textViewMac);
+        textView.setText(data);
+    }
+
+    private void saveDb() {
+        String title = nameEditText.getText().toString();
+        String subTitle = pwdEditText.getText().toString();
+
+        dao.createRow(title,subTitle);
+    }
+
+    private void lauchIntent() {
+        Intent dialIntent = new Intent(Intent.ACTION_VIEW,
+                Uri.parse("tel:123456789"));
+        startActivity(dialIntent);
+                /*String name = nameEditText.getText().toString();
+                Toast.makeText(this, name, Toast.LENGTH_SHORT).show();
+                */
+    }
+
+    private void startactivtityResult() {
+        Intent homeIntent = new Intent(MainActivity.this,
+                DisplayMsgActivity.class);
+        String name = nameEditText.getText().toString();
+        homeIntent.putExtra("actkey",name);
+        startActivityForResult(homeIntent,007);
     }
 
 
